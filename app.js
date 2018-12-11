@@ -2,7 +2,7 @@ var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
 var port = process.env.PORT || "8080";
-var ip = process.env.IP || "159.203.13.74";
+var ip = process.env.IP || "104.248.67.184";
 var data = require("./data");
 console.log(data);
 
