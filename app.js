@@ -1,7 +1,7 @@
 var fs = require('fs');
 var https = require('https');
 
-var privateKey  = fs.readFileSync('../manko.app.key', 'utf8');
+var privateKey  = fs.readFileSync('../manko.app.chained.key', 'utf8');
 var certificate = fs.readFileSync('../manko.app.crt', 'utf8');
 
 var credentials = {key: privateKey, cert: certificate};
