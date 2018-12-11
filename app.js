@@ -1,10 +1,20 @@
+var fs = require('fs');
+var https = require('https');
+
+var privateKey  = fs.readFileSync('../manko.app.key', 'utf8');
+var certificate = fs.readFileSync('../manko.app.crt', 'utf8');
+
+var credentials = {key: privateKey, cert: certificate};
+
+
+
 var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
-var port = process.env.PORT || "8080";
-var ip = process.env.IP || "178.128.6.66";
+//var port = process.env.PORT || "8080";
+//var ip = process.env.IP || "178.128.6.66";
 var data = require("./data");
-console.log(data);
+//console.log(data);
 
 var api_key = data.mailKey;
 var domain =  data.mailUser;
@@ -65,6 +75,9 @@ app.get("*", function(req, res){
     res.render("index");
 });
 
-app.listen(port, ip, function(){
-    console.log("Portal al Mundo de los Espíritus abierto");
-});
+// app.listen(port, ip, function(){
+//     console.log("Portal al Mundo de los Espíritus abierto");
+// });
+
+var httpsServer = https.createServer(credentials, app);
+httpsServer.listen(8080);
