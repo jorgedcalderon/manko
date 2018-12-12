@@ -27,12 +27,12 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 //app routes
 app.get("/", function(req, res){
-    res.send("TESTING LANDING PAGE");
+    res.render("index");
 });
 
-// app.get("/es", function(req, res){
-//     res.render("landing-es");
-// });
+app.get("/es", function(req, res){
+    res.render("landing-es");
+});
 
 //app routes
 
