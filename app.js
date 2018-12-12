@@ -1,3 +1,60 @@
+const http = require('http');
+
+const hostname = 'localhost';
+const port = 3000;
+
+const server = http.createServer((req, res) => {
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
+  res.end('Hello World!\n');
+});
+
+server.listen(port, hostname, () => {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});
+
+
+
+// var express = require("express");
+// var app = express();
+// var bodyParser = require("body-parser");
+// var port = process.env.PORT || "8080";
+// var ip = process.env.IP || "178.128.6.66";
+
+
+// //app config
+// var data = require("./data");
+// var api_key = data.mailKey;
+// var domain =  data.mailUser;
+// var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
+// app.set("view engine", "ejs");
+// app.use(express.static(__dirname + "/public"));
+// app.use(bodyParser.urlencoded({extended: true}));
+// //app config
+
+
+// //app routes
+// app.get("/", function(req, res){
+//     res.render("index");
+// });
+
+// app.get("/es", function(req, res){
+//     res.render("landing-es");
+// });
+
+
+
+// app.listen(port, ip, function(){
+//     console.log("Servidor del mundo de los espiritus inicado");
+// });
+
+
+
+
+
+
+
+//----------------------------
 //https:
 // const https = require("https"),
 //   fs = require("fs");
@@ -7,50 +64,12 @@
 //   cert: fs.readFileSync('../manko.app.crt', 'utf8')
 // };
 
-var express = require("express");
-var app = express();
-var bodyParser = require("body-parser");
-var port = process.env.PORT || "8080";
-var ip = process.env.IP || "178.128.6.66";
-
-
-//app config
-var data = require("./data");
-var api_key = data.mailKey;
-var domain =  data.mailUser;
-var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
-app.set("view engine", "ejs");
-app.use(express.static(__dirname + "/public"));
-app.use(bodyParser.urlencoded({extended: true}));
-//app config
-
-
-//app routes
-app.get("/", function(req, res){
-    res.render("index");
-});
-
-app.get("/es", function(req, res){
-    res.render("landing-es");
-});
-
 //app routes
 
 //app server
 // app.listen(8000);
 // https.createServer(options, app).listen(8080);
-
-app.listen(port, ip, function(){
-    console.log("Servidor del mundo de los espiritus inicado");
-});
-
-
-
-
-
-
-
-
+//----------------------------
 
 
 
