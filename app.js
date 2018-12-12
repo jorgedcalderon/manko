@@ -4,7 +4,7 @@ const https = require("https"),
   
 const options = {
   key: fs.readFileSync('../manko.app.key', 'utf8'),
-  cert: fs.readFileSync('../manko.app.chained.crt', 'utf8')
+  cert: fs.readFileSync('../manko.app.crt', 'utf8')
 };
 
 const app = express();
