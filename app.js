@@ -1,17 +1,20 @@
-//inicio
-const https = require("https"),
-  fs = require("fs"),
-  express = require("express");
+//https:
+// const https = require("https"),
+//   fs = require("fs");
   
-const options = {
-  key: fs.readFileSync('../manko.app.key', 'utf8'),
-  cert: fs.readFileSync('../manko.app.crt', 'utf8')
-};
+// const options = {
+//   key: fs.readFileSync('../manko.app.key', 'utf8'),
+//   cert: fs.readFileSync('../manko.app.crt', 'utf8')
+// };
 
-const app = express();
+var express = require("express");
+var app = express();
+var bodyParser = require("body-parser");
+var port = process.env.PORT || "8080";
+var ip = process.env.IP || "159.203.13.74";
+
 
 //app config
-var bodyParser = require("body-parser");
 var data = require("./data");
 var api_key = data.mailKey;
 var domain =  data.mailUser;
@@ -32,9 +35,14 @@ app.get("/", function(req, res){
 // });
 
 //app routes
-app.listen(8000);
 
-https.createServer(options, app).listen(8080);
+//app server
+// app.listen(8000);
+// https.createServer(options, app).listen(8080);
+
+app.listen(port, ip, function(){
+    console.log("Servidor del mundo de los espiritus inicado");
+});
 
 
 
