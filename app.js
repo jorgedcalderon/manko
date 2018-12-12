@@ -3,7 +3,7 @@ const https = require("https"),
   express = require("express");
 
 const options = {
-  key: fs.readFileSync("/root/manko.app.chained.key"),
+  key: fs.readFileSync("/root/manko.app.key"),
   cert: fs.readFileSync("/root/manko.app.crt")
 };
 
