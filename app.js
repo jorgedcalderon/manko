@@ -1,29 +1,50 @@
-const https = require('https'),
-fs = require("fs");
-var express = require("express"),
-app = express();
-
+const https = require("https"),
+  fs = require("fs"),
+  express = require("express");
 
 const options = {
-  key: fs.readFileSync('../manko.app.key', 'utf8'),
-  cert: fs.readFileSync('../manko.app.crt', 'utf8')
+  key: fs.readFileSync("/root/manko.app.chained.key"),
+  cert: fs.readFileSync("/root/manko.app.crt")
 };
 
+const app = express();
 
-const hostname = 'localhost';
-const port = 8080;
-
-app.get("*", function(req, res){
-    res.send("PAGINA CHIDA");
+app.use((req, res) => {
+  res.writeHead(200);
+  res.end("hello world\n");
 });
 
+app.listen(8000);
+
+https.createServer(options, app).listen(8080);
 
 
-const server = https.createServer(options, app);
+// const https = require('https'),
+// fs = require("fs");
+// var express = require("express"),
+// app = express();
 
-server.listen(port, hostname, () => {
-  console.log(`Server MAnko running at http://${hostname}:${port}/`);
-});
+
+// const options = {
+//   key: fs.readFileSync('../manko.app.chained.key', 'utf8'),
+//   cert: fs.readFileSync('../manko.app.crt', 'utf8')
+// };
+
+
+// const hostname = 'localhost';
+// const port = 8080;
+
+// app.get("*", function(req, res){
+//     res.send("PAGINA CHIDA");
+// });
+
+
+
+// const server = https.createServer(options, app);
+
+// server.listen(port, hostname, () => {
+//   console.log(`Server MAnko running at http://${hostname}:${port}/`);
+// });
 
 //app server
 // app.listen(8000);
