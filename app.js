@@ -1,18 +1,33 @@
-const http = require('http');
+const https = require('https'),
+fs = require("fs");
+var express = require("express"),
+app = express();
+
+
+const options = {
+  key: fs.readFileSync('../manko.app.key', 'utf8'),
+  cert: fs.readFileSync('../manko.app.crt', 'utf8')
+};
+
 
 const hostname = 'localhost';
-const port = 3000;
+const port = 8080;
 
-const server = http.createServer((req, res) => {
-  res.statusCode = 200;
-  res.setHeader('Content-Type', 'text/plain');
-  res.end('Hello World!\n');
+app.get("*", function(req, res){
+    res.send("PAGINA CHIDA");
 });
+
+
+
+const server = https.createServer(options, app);
 
 server.listen(port, hostname, () => {
-  console.log(`Server running at http://${hostname}:${port}/`);
+  console.log(`Server MAnko running at http://${hostname}:${port}/`);
 });
 
+//app server
+// app.listen(8000);
+// https.createServer(options, app).listen(8080);
 
 
 // var express = require("express");
