@@ -50,7 +50,8 @@
 // app.listen(8000);
 // https.createServer(options, app).listen(8080);
 
-
+const now = new Date();
+console.log(now);
 var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
