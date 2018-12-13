@@ -192,14 +192,17 @@ header nav li {
 
 @media (max-width: 800px) {
 	.hero {
+		
 		min-height: 600px;
 	}
 
-	.hero h1 {
+	.hero h2 {
+		margin-top: 50px;
 		font-size: 48px;
 	}
 
 	.hero h3 {
+		
 		font-size: 24px;
 	}
 
