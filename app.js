@@ -6,14 +6,19 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
 app.set("view engine", "ejs");
-
-// We’re setting up an extremely simple server here.
+//http
 const http = require('http');
+
+var data = require("./data");
+var api_key = data.mailKey;
+var domain =  data.mailUser;
+var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
 
 // These could (should) be set as env vars.
 const port = process.env.PORT || 8000;
 const host = process.env.HOST || 'localhost';
 
+//---------rutas
 app.get("/", function(req, res){
     res.render("index");
 });
@@ -23,14 +28,39 @@ app.get("/es", function(req, res){
 });
 
 app.get("*", function(req, res){
-    res.send("MILAGRO ");
+    res.send("¡412!¡Tenemos un 412! ");
 });
 
-// No matter what hits the server, we send the same thing.
-http.createServer(app).listen(port, host);
+app.get("/client_info", function(req, res){
+    res.render("client-info");
+});
 
-// This message prints in the console when the app starts.
-console.log(`App running at http://${host}:${port}`);
+app.post("/client_info", function(req, res){
+    var name = req.body.name;
+    var email = req.body.email;
+    var phone = req.body.phone;
+    console.log(email + name + phone);
+    
+    var mailData = {
+          from: 'Registros de Manko <servidor@manko.app>',
+          to: 'hola@manko.app',
+          subject: 'Registro en Manko.app',
+          text: 'Un nuevo registro: \n\n' +
+          name + '\n\n' + email + '\n\n' + phone +
+          '\n'
+        };
+        
+        mailgun.messages().send(mailData, function (error, body) {
+          console.log(body);
+        });
+    
+    res.render("client-info");
+});
+
+//----------------rutas
+
+http.createServer(app).listen(port, host);
+console.log('Mundo de los espíritus corriendo en http://${host}:${port}');
 
 
 // // imports
