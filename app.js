@@ -18,6 +18,10 @@ app.get("/", function(req, res){
     res.render("index");
 });
 
+app.get("/es", function(req, res){
+    res.render("landing-es");
+});
+
 app.get("*", function(req, res){
     res.send("MILAGRO ");
 });
