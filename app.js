@@ -1,34 +1,38 @@
-'use strict';
-var express = require("express"),
-app = express();
-
-var bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(__dirname + '/public'));
-app.set("view engine", "ejs");
-//http
-const http = require('http');
-
+var express = require("express");
+var app = express();
+var bodyParser = require("body-parser");
+var port = process.env.PORT || "8000";
+var ip = process.env.IP || 'localhost';
 var data = require("./data");
+
+
 var api_key = data.mailKey;
 var domain =  data.mailUser;
 var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
 
-// These could (should) be set as env vars.
-const port = process.env.PORT || 8000;
-const host = process.env.HOST || 'localhost';
+app.set("view engine", "ejs");
+app.use(express.static(__dirname + "/public"));
+app.use(bodyParser.urlencoded({extended: true}));
 
-//---------rutas
+
 app.get("/", function(req, res){
     res.render("index");
+});
+
+app.get("/en", function(req, res){
+    res.render("landing-en");
 });
 
 app.get("/es", function(req, res){
     res.render("landing-es");
 });
 
-app.get("*", function(req, res){
-    res.send("¡412!¡Tenemos un 412! ");
+app.get("/pago_exitoso", function(req, res){
+    res.render("pago-exitoso");
+});
+
+app.get("/pago_en_proceso", function(req, res){
+    res.render("pago-en-proceso");
 });
 
 app.get("/client_info", function(req, res){
@@ -42,9 +46,9 @@ app.post("/client_info", function(req, res){
     console.log(email + name + phone);
     
     var mailData = {
-          from: 'Registros de Manko <servidor@manko.app>',
-          to: 'hola@manko.app',
-          subject: 'Registro en Manko.app',
+          from: 'Registros de Temazcal <servidor@temazcal.info>',
+          to: 'hola@temazcal.info',
+          subject: 'Registro en temazcal.info',
           text: 'Un nuevo registro: \n\n' +
           name + '\n\n' + email + '\n\n' + phone +
           '\n'
@@ -57,217 +61,47 @@ app.post("/client_info", function(req, res){
     res.render("client-info");
 });
 
-//----------------rutas
+app.get("*", function(req, res){
+    res.render("index");
+});
 
-http.createServer(app).listen(port, host);
-console.log('Mundo de los espíritus corriendo en http://${host}:${port}');
-
-
-// // imports
-// var express = require('express');
-// var request = require('request');
-// var http = require('http');
-// var https = require('https');
-// var staticServe = require('serve-static');
-// var fs = require('fs');
-// var bodyParser = require('body-parser');
-// var xml2json = require('xml2json');
-
-// // server
-// var app = express();
-
-// app.use(bodyParser.json()); // used for parsing application/json
-// app.use(bodyParser.urlencoded({ extended: true }));     // for parsing application/x-www-form-unlencoded
-
-// // Used for setting up your static site
-// app.set("view engine", "ejs");
-// // app.use(express.static(__dirname + "/public"));
-// app.use(staticServe('_domain', {'index': ['index.html', 'index.html']}));
-
-// // Read the link below about express behind a proxy
-// app.set('trust proxy', true);
-// app.set('trust proxy', 'loopback');
-
-// const options = {
-//   key: fs.readFileSync("/root/manko.app.key"),
-//   cert: fs.readFileSync("/root/manko.app.crt")
-// };
-
-// app.get("*", function(req, res){
-//     res.send("PAGINA CHIDA *");
-// });
-
-// http.createServer(app).listen(process.env.PORT || 8000);
-// https.createServer(options, app).listen(process.env.PORT || 8443);
+app.listen(port, ip, function(){
+    console.log("Servidor de temazcal inicado");
+});
 
 
-
-// const https = require("https"),
-//   fs = require("fs"),
-//   express = require("express");
-
-// const options = {
-//   key: fs.readFileSync("/root/manko.app.key"),
-//   cert: fs.readFileSync("/root/manko.app.crt")
-// };
-
-// const app = express();
-
-// app.use((req, res) => {
-//   res.writeHead(200);
-//   res.end("hello world\n");
-// });
-
-// app.listen(8000);
-
-// https.createServer(options, app).listen(8080);
-
-
-// const https = require('https'),
-// fs = require("fs");
+// 'use strict';
 // var express = require("express"),
 // app = express();
 
+// var bodyParser = require('body-parser');
+// app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(express.static(__dirname + '/public'));
+// app.set("view engine", "ejs");
+// //http
+// const http = require('http');
 
-// const options = {
-//   key: fs.readFileSync('../manko.app.chained.key', 'utf8'),
-//   cert: fs.readFileSync('../manko.app.crt', 'utf8')
-// };
+// var data = require("./data");
+// var api_key = data.mailKey;
+// var domain =  data.mailUser;
+// var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
 
+// // These could (should) be set as env vars.
+// const port = process.env.PORT || 8000;
+// const host = process.env.HOST || 'localhost';
 
-// const hostname = 'localhost';
-// const port = 8080;
+// //---------rutas
+// app.get("/", function(req, res){
+//     res.render("index");
+// });
+
+// app.get("/es", function(req, res){
+//     res.render("landing-es");
+// });
 
 // app.get("*", function(req, res){
-//     res.send("PAGINA CHIDA");
+//     res.send("¡412!¡Tenemos un 412! ");
 // });
-
-
-
-// const server = https.createServer(options, app);
-
-// server.listen(port, hostname, () => {
-//   console.log(`Server MAnko running at http://${hostname}:${port}/`);
-// });
-
-//app server
-// app.listen(8000);
-// https.createServer(options, app).listen(8080);
-
-// const now = new Date();
-// console.log(now);
-// var express = require("express");
-// var app = express();
-// var bodyParser = require("body-parser");
-// var port = process.env.PORT || "8080";
-// var ip = process.env.IP || "178.128.6.66";
-
-
-// //app config
-// var data = require("./data");
-// var api_key = data.mailKey;
-// var domain =  data.mailUser;
-// var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
-// app.set("view engine", "ejs");
-// app.use(express.static(__dirname + "/public"));
-// app.use(bodyParser.urlencoded({extended: true}));
-// //app config
-
-
-// //app routes
-// app.get("/", function(req, res){
-//     res.render("index");
-// });
-
-// app.get("/es", function(req, res){
-//     res.render("landing-es");
-// });
-
-
-
-// app.listen(port, ip, function(){
-//     console.log("Servidor del mundo de los espiritus inicado");
-// });
-
-
-
-
-
-
-
-//----------------------------
-//https:
-// const https = require("https"),
-//   fs = require("fs");
-  
-// const options = {
-//   key: fs.readFileSync('../manko.app.key', 'utf8'),
-//   cert: fs.readFileSync('../manko.app.crt', 'utf8')
-// };
-
-//app routes
-
-//app server
-// app.listen(8000);
-// https.createServer(options, app).listen(8080);
-//----------------------------
-
-
-
-
-
-
-
-
-
-
-// var https = require('https');
-// var fs = require('fs');
-
-// var privateKey  = fs.readFileSync('../manko.app.key', 'utf8');
-// var certificate = fs.readFileSync('../manko.app.chained.crt', 'utf8');
-
-// var credentials = {key: privateKey, cert: certificate};
-
-
-
-// var express = require("express");
-// var app = express();
-// var bodyParser = require("body-parser");
-// var port = process.env.PORT || "3443";
-// app.set('port', port);
-// //var ip = process.env.IP || "178.128.6.66";
-// var data = require("./data");
-// //console.log(data);
-
-// var api_key = data.mailKey;
-// var domain =  data.mailUser;
-// var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
-
-// app.set("view engine", "ejs");
-// app.use(express.static(__dirname + "/public"));
-// app.use(bodyParser.urlencoded({extended: true}));
-
-
-// app.get("/", function(req, res){
-//     res.render("index");
-// });
-
-// // app.get("/en", function(req, res){
-// //     res.render("landing-en");
-// // });
-
-// app.get("/es", function(req, res){
-//     res.render("landing-es");
-// });
-
-// // app.get("/pago_exitoso", function(req, res){
-// //     res.render("pago-exitoso");
-// // });
-
-// // app.get("/pago_en_proceso", function(req, res){
-// //     res.render("pago-en-proceso");
-// // });
 
 // app.get("/client_info", function(req, res){
 //     res.render("client-info");
@@ -295,17 +129,8 @@ console.log('Mundo de los espíritus corriendo en http://${host}:${port}');
 //     res.render("client-info");
 // });
 
-// app.get("*", function(req, res){
-//     res.render("index");
-// });
+// //----------------rutas
 
-// // app.listen(port, ip, function(){
-// //     console.log("Portal al Mundo de los Espíritus abierto");
-// // });
+// http.createServer(app).listen(port, host);
+// console.log('Mundo de los espíritus corriendo en http://${host}:${port}');
 
-
-  
-
-// var httpsServer = https.createServer(credentials, app);
-
-// httpsServer.listen(port);
