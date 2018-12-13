@@ -86,10 +86,10 @@ app.post("/libroComprado", function(req, res){
         });
         
         var mail2Data = {
-          from: 'El Mundo de los Espíritus <admin@manko.app>',
-          to: 'hola@manko.app',
-          subject: email,
-          text: name + 'así que quieres entrar al Mundo de los Espíritus... \n\n Bueno si así lo quieres, así será... \n Espera grandes cambios y señales sutiles...'
+          from: 'El Mundo de los Espíritus <hola@manko.app>',
+          to: email,
+          subject: name + ', entra al Mundo de los Espíritus',
+          text: name + ' así que quieres entrar al Mundo de los Espíritus... \n\n Bueno, si así lo quieres, así será... \n Espera grandes cambios y señales sutiles...'
         };
         
         mailgun.messages().send(mail2Data, function (error, body) {
