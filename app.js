@@ -46,8 +46,8 @@ app.post("/client_info", function(req, res){
     console.log(email + name + phone);
     
     var mailData = {
-          from: 'Registros de Temazcal <servidor@temazcal.info>',
-          to: 'hola@temazcal.info',
+          from: 'libro comprado Manko clave <servidor@manko.app>',
+          to: 'hola@manko.app',
           subject: 'Registro en MANKO',
           text: 'Un nuevo registro: \n\n' +
           name + '\n\n' + email + '\n\n' + phone +
@@ -59,6 +59,44 @@ app.post("/client_info", function(req, res){
         });
     
     res.render("client-info");
+});
+
+app.get("/libroComprado", function(req, res){
+    res.render("libroComprado");
+});
+
+app.post("/libroComprado", function(req, res){
+    var clave= req.body.clave;
+    var name = req.body.name;
+    var email = req.body.email;
+    var phone = req.body.phone;
+    //console.log(email + name + phone + clave);
+    
+    var mailData = {
+          from: 'El Mundo de los Espíritus <servidor@manko.app>',
+          to: 'hola@manko.app',
+          subject: 'Registro en MANKO',
+          text: 'Un nuevo registro: \n\n' +
+          name + '\n\n' + email + '\n\n' + phone +
+          '\n'
+        };
+        
+        mailgun.messages().send(mailData, function (error, body) {
+          console.log(body);
+        });
+        
+        var mail2Data = {
+          from: 'El Mundo de los Espíritus <admin@manko.app>',
+          to: 'hola@manko.app',
+          subject: email,
+          text: name + 'así que quieres entrar al Mundo de los Espíritus... \n\n Bueno si así lo quieres, así será... \n Espera grandes cambios y señales sutiles...'
+        };
+        
+        mailgun.messages().send(mail2Data, function (error, body) {
+          console.log(body);
+        });
+    
+    res.render("libroComprado");
 });
 
 app.get("*", function(req, res){
