@@ -1,39 +1,66 @@
-// imports
-var express = require('express');
-var request = require('request');
-var http = require('http');
-var https = require('https');
-var staticServe = require('serve-static');
-var fs = require('fs');
-var bodyParser = require('body-parser');
-var xml2json = require('xml2json');
+'use strict';
 
-// server
-var app = express();
+// We’re setting up an extremely simple server here.
+const http = require('http');
 
-app.use(bodyParser.json()); // used for parsing application/json
-app.use(bodyParser.urlencoded({ extended: true }));     // for parsing application/x-www-form-unlencoded
+// These could (should) be set as env vars.
+const port = process.env.PORT || 8000;
+const host = process.env.HOST || 'localhost';
 
-// Used for setting up your static site
-app.set("view engine", "ejs");
-// app.use(express.static(__dirname + "/public"));
-app.use(staticServe('_domain', {'index': ['index.html', 'index.html']}));
+// No matter what hits the server, we send the same thing.
+http.createServer((req, res) => {
 
-// Read the link below about express behind a proxy
-app.set('trust proxy', true);
-app.set('trust proxy', 'loopback');
+  // Tell the browser what’s coming.
+  res.writeHead(200, {
+    'Content-Type': 'text/html; charset=utf-8',
+  });
 
-const options = {
-  key: fs.readFileSync("/root/manko.app.key"),
-  cert: fs.readFileSync("/root/manko.app.crt")
-};
+  // Send a simple message in HTML.
+  res.write('<h1>I’m a Node app!</h1>');
+  res.write('<p>And I’m <em>sooooo</em> secure.</p>');
+  res.end();
+}).listen(port, host);
 
-app.get("*", function(req, res){
-    res.send("PAGINA CHIDA *");
-});
+// This message prints in the console when the app starts.
+console.log(`App running at http://${host}:${port}`);
 
-http.createServer(app).listen(process.env.PORT || 8000);
-https.createServer(options, app).listen(process.env.PORT || 8443);
+
+// // imports
+// var express = require('express');
+// var request = require('request');
+// var http = require('http');
+// var https = require('https');
+// var staticServe = require('serve-static');
+// var fs = require('fs');
+// var bodyParser = require('body-parser');
+// var xml2json = require('xml2json');
+
+// // server
+// var app = express();
+
+// app.use(bodyParser.json()); // used for parsing application/json
+// app.use(bodyParser.urlencoded({ extended: true }));     // for parsing application/x-www-form-unlencoded
+
+// // Used for setting up your static site
+// app.set("view engine", "ejs");
+// // app.use(express.static(__dirname + "/public"));
+// app.use(staticServe('_domain', {'index': ['index.html', 'index.html']}));
+
+// // Read the link below about express behind a proxy
+// app.set('trust proxy', true);
+// app.set('trust proxy', 'loopback');
+
+// const options = {
+//   key: fs.readFileSync("/root/manko.app.key"),
+//   cert: fs.readFileSync("/root/manko.app.crt")
+// };
+
+// app.get("*", function(req, res){
+//     res.send("PAGINA CHIDA *");
+// });
+
+// http.createServer(app).listen(process.env.PORT || 8000);
+// https.createServer(options, app).listen(process.env.PORT || 8443);
 
 
 
