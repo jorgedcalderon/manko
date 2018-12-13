@@ -1,11 +1,12 @@
 'use strict';
 var express = require("express"),
 app = express();
+
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static(__dirname + '/public'));
 app.set("view engine", "ejs");
-// app.use(express.static(__dirname + "/public"));
-app.use('/static', express.static(__dirname + '/public'));
+
 // We’re setting up an extremely simple server here.
 const http = require('http');
 
