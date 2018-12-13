@@ -10,8 +10,15 @@
   "author": "David Calderon",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
-    "mailgun-js": "^0.22.0"
+    "fs": "0.0.1-security",
+    "http": "0.0.0",
+    "https": "^1.0.0",
+    "mailgun-js": "^0.22.0",
+    "request": "^2.88.0",
+    "serve-static": "^1.13.2",
+    "xml2json": "^0.11.2"
   }
 }

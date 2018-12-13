@@ -1,3 +1,42 @@
+// imports
+var express = require('express');
+var request = require('request');
+var http = require('http');
+var https = require('https');
+var staticServe = require('serve-static');
+var fs = require('fs');
+var bodyParser = require('body-parser');
+var xml2json = require('xml2json');
+
+// server
+var app = express();
+
+app.use(bodyParser.json()); // used for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true }));     // for parsing application/x-www-form-unlencoded
+
+// Used for setting up your static site
+app.set("view engine", "ejs");
+// app.use(express.static(__dirname + "/public"));
+app.use(staticServe('_domain', {'index': ['index.html', 'index.html']}));
+
+// Read the link below about express behind a proxy
+app.set('trust proxy', true);
+app.set('trust proxy', 'loopback');
+
+const options = {
+  key: fs.readFileSync("/root/manko.app.key"),
+  cert: fs.readFileSync("/root/manko.app.crt")
+};
+
+app.get("*", function(req, res){
+    res.send("PAGINA CHIDA *");
+});
+
+http.createServer(app).listen(process.env.PORT || 8000);
+https.createServer(options, app).listen(process.env.PORT || 8443);
+
+
+
 // const https = require("https"),
 //   fs = require("fs"),
 //   express = require("express");
@@ -50,40 +89,40 @@
 // app.listen(8000);
 // https.createServer(options, app).listen(8080);
 
-const now = new Date();
-console.log(now);
-var express = require("express");
-var app = express();
-var bodyParser = require("body-parser");
-var port = process.env.PORT || "8080";
-var ip = process.env.IP || "178.128.6.66";
+// const now = new Date();
+// console.log(now);
+// var express = require("express");
+// var app = express();
+// var bodyParser = require("body-parser");
+// var port = process.env.PORT || "8080";
+// var ip = process.env.IP || "178.128.6.66";
 
 
-//app config
-var data = require("./data");
-var api_key = data.mailKey;
-var domain =  data.mailUser;
-var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
-app.set("view engine", "ejs");
-app.use(express.static(__dirname + "/public"));
-app.use(bodyParser.urlencoded({extended: true}));
-//app config
+// //app config
+// var data = require("./data");
+// var api_key = data.mailKey;
+// var domain =  data.mailUser;
+// var mailgun = require('mailgun-js')({apiKey: api_key, domain: domain});
+// app.set("view engine", "ejs");
+// app.use(express.static(__dirname + "/public"));
+// app.use(bodyParser.urlencoded({extended: true}));
+// //app config
 
 
-//app routes
-app.get("/", function(req, res){
-    res.render("index");
-});
+// //app routes
+// app.get("/", function(req, res){
+//     res.render("index");
+// });
 
-app.get("/es", function(req, res){
-    res.render("landing-es");
-});
+// app.get("/es", function(req, res){
+//     res.render("landing-es");
+// });
 
 
 
-app.listen(port, ip, function(){
-    console.log("Servidor del mundo de los espiritus inicado");
-});
+// app.listen(port, ip, function(){
+//     console.log("Servidor del mundo de los espiritus inicado");
+// });
 
 
 
