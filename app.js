@@ -13,6 +13,10 @@ const http = require('http');
 const port = process.env.PORT || 8000;
 const host = process.env.HOST || 'localhost';
 
+app.get("/", function(req, res){
+    res.render("index");
+});
+
 app.get("*", function(req, res){
     res.send("MILAGRO ");
 });
